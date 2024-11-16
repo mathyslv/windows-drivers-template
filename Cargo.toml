@@ -7,13 +7,13 @@ edition = "2021"
 crate-type = ["cdylib"]
 test = false
 
-{%- if driver_type == "WDM" or driver_type == "KMDF" -%}
+{% if driver_type == "WDM" or driver_type == "KMDF" %}
 [profile.dev]
 panic = "abort"
 
 [profile.release]
 panic = "abort"
-{%- endif %}
+{% endif %}
 
 [package.metadata.wdk.driver-model]
 {{driver_type | downcase}}-version-major = 1
