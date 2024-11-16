@@ -1,0 +1,15 @@
+[template]
+ignore = [
+    ".vscode"
+]
+
+[placeholders.driver_type]
+type = "string"
+prompt = "Which type of driver?"
+choices = ["WDM", "KMDF", "UMDF"]
+default = "WDM"
+
+[conditional.'driver_type == "WDM" || driver_type == "KMDF"'.placeholders.allocator]
+type = "bool"
+prompt = "Support for alloc ?"
+default = true

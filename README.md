@@ -1,2 +1,3 @@
-# windows-drivers-template
-A cargo-template for Windows drivers
+# {{project-name}}
+
+A Rust Windows driver project.

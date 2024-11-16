@@ -1,0 +1,30 @@
+[package]
+name = "{{project-name}}"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+test = false
+
+{%- if driver_type == "WDM" or driver_type == "KMDF" -%}
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
+{%- endif %}
+
+[package.metadata.wdk.driver-model]
+{{driver_type | downcase}}-version-major = 1
+target-{{driver_type | downcase}}-version-minor = 33
+driver-type = "{{driver_type}}"
+
+[dependencies]
+wdk = "0.3.0"
+wdk-alloc = "0.3.0"
+wdk-panic = "0.3.0"
+wdk-sys = "0.3.0"
+
+[build-dependencies]
+wdk-build = "0.3.0"
