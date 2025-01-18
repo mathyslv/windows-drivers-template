@@ -1,0 +1,55 @@
+;===================================================================
+; {{ project-name | capitalize }}
+; Copyright (c) Microsoft Corporation
+;===================================================================
+
+[Version]
+Signature   = "$WINDOWS NT$"
+Class       = System
+ClassGuid   = {4d36e97d-e325-11ce-bfc1-08002be10318}
+Provider    = %ProviderString%
+PnpLockDown = 1
+
+[DestinationDirs]
+DefaultDestDir = 13
+
+[SourceDisksNames]
+1 = %DiskId1%,,,""
+
+[SourceDisksFiles]
+{{ project-name | downcase }}.sys = 1,,
+
+; ================= Install section =================
+
+[Manufacturer]
+%StdMfg%=Standard,NT$ARCH$.10.0...16299
+
+[Standard.NT$ARCH$.10.0...16299]
+%DeviceDesc%={{ project-name | capitalize }}Device, root\{{ project-name | upcase }}_HW_ID
+
+[{{ project-name | capitalize }}Device.NT$ARCH$]
+CopyFiles=Drivers_Dir
+
+[Drivers_Dir]
+{{ project-name | downcase }}.sys
+
+; ================= Service installation =================
+[{{ project-name | capitalize }}Device.NT$ARCH$.Services]
+AddService = {{ project-name | capitalize }}Service, %SPSVCINST_ASSOCSERVICE%, {{ project-name | capitalize }}_Service_Install
+
+[{{ project-name | capitalize }}_Service_Install]
+DisplayName    = %ServiceDesc%
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 3               ; SERVICE_DEMAND_START 
+ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %13%\{{ project-name | downcase }}.sys
+
+; ================= Strings =================
+[Strings]
+SPSVCINST_ASSOCSERVICE = 0x00000002
+ProviderString         = "TODO-Set-Provider"
+StdMfg                 = "(Standard system devices)"
+DiskId1                = "{{ project-name | capitalize }} Installation Disk #1"
+DeviceDesc             = "{{ project-name | capitalize }} Device"
+ServiceDesc            = "{{ project-name | capitalize }} Service"
+ClassName              = "{{ project-name | capitalize }} Device"
